@@ -36,14 +36,14 @@ public class QnaService {
     }
 
     @Transactional
-    public Question update(User loginUser, long id, Question updatedQuestion) {
-        // TODO 수정 기능 구현
-        return null;
+    public Question update(Long id, Question updatedQuestion) {
+        Question question = questionRepository.findById(id).orElse(null).updateQuestion(updatedQuestion);
+        return questionRepository.save(question);
     }
 
     @Transactional
     public void deleteQuestion(User loginUser, long questionId) throws CannotDeleteException {
-        // TODO 삭제 기능 구현
+        questionRepository.deleteById(questionId);
     }
 
     public Iterable<Question> findAll() {
