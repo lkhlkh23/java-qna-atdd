@@ -45,8 +45,8 @@ public class QuestionAcceptanceTest extends AcceptanceTest {
                                                                 .addParameter("contents", "Test Contents By javajigi")
                                                                 .build();
 
-        ResponseEntity<String> response = template().postForEntity("/questions", request, String.class);
-        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        ResponseEntity<String> response = template().postForEntity("/api/questions", request, String.class);
+        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Test
@@ -57,9 +57,9 @@ public class QuestionAcceptanceTest extends AcceptanceTest {
                 .addParameter("contents", "C")
                 .build();
 
-        ResponseEntity<String> response = testRestTemplate.postForEntity("/questions", request, String.class);
-        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
-        softly.assertThat(response.getHeaders().getLocation().getPath().equals("/question/form")).isTrue();
+        ResponseEntity<String> response = testRestTemplate.postForEntity("/api/questions", request, String.class);
+        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        logger.debug("Body : " + response.getBody());
     }
 
     @Test
@@ -70,8 +70,8 @@ public class QuestionAcceptanceTest extends AcceptanceTest {
                                                                 .addParameter("contents", "Test Contents By javajigi")
                                                                 .build();
 
-        ResponseEntity<String> response = testRestTemplate.postForEntity("/questions", request, String.class);
-        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
+        ResponseEntity<String> response = testRestTemplate.postForEntity("/api/questions", request, String.class);
+        softly.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         softly.assertThat(response.getHeaders().getLocation().getPath().equals("/")).isTrue();
     }
 

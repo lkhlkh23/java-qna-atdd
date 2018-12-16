@@ -22,7 +22,6 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
         User user = HttpSessionUtils.getUserFromSession(webRequest);
-        System.out.println(user.toString() + "~~~~~~~~~~~~~~~~~~");
         if (!user.isGuestUser()) {
             return user;
         }

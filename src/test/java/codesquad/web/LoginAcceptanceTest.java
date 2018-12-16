@@ -8,8 +8,13 @@ import org.mockito.InjectMocks;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import support.test.AcceptanceTest;
+
+import java.util.Arrays;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class LoginAcceptanceTest extends AcceptanceTest {
