@@ -76,7 +76,11 @@ public class QnaService {
     @Transactional
     public Question deleteAnswer(User loginUser, long questionId, Answer answer) {
         Question question = questionRepository.getOne(questionId);
-        question.deleteAnswer(loginUser, answer);
+        /* 피드백1) 답변삭제를 Question
+            --> Answer로 변경 (Question의 answers에서 작업하는 것이 아니라 Answer에서 deleted값만 변경하면되기
+                때문에 Answer에 적용하는 것이 맞음
+        */
+        answer.deleteAnswer(loginUser);
         return question;
     }
 }

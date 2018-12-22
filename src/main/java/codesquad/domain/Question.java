@@ -123,7 +123,15 @@ public class Question extends AbstractEntity implements UrlGeneratable {
         }
 
         this.deleted = true;
+        /* 피드백2) 질문삭제 시, 답변 삭제 처리(deleted) */
+        deleteAnswers(loginUser);
         return this;
+    }
+
+    public void deleteAnswers(User loginUser) {
+        for(Answer answer : answers) {
+            answer.deleteAnswer(loginUser);
+        }
     }
 
     public Question applyOwner(User user) {
@@ -140,14 +148,6 @@ public class Question extends AbstractEntity implements UrlGeneratable {
     public boolean isTitleAndContentsAndWriter(Question question) {
         return this.title.equals(question.title) && this.contents.equals(question.contents)
                 && this.writer.equals(question.writer);
-    }
-
-    public void deleteAnswer(User loginUser, Answer answer) throws UnAuthorizedException{
-        if(!answer.isOwner(loginUser)) {
-            throw new UnAuthorizedException();
-        }
-        answer.toQuestion(this);
-        answer.setDeleted();
     }
 
     public DeleteHistory createQuestionOfDeleteHistory(Long id) {

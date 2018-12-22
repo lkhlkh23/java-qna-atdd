@@ -1,5 +1,6 @@
 package codesquad.domain;
 
+import codesquad.UnAuthorizedException;
 import support.domain.AbstractEntity;
 import support.domain.UrlGeneratable;
 
@@ -87,5 +88,12 @@ public class Answer extends AbstractEntity implements UrlGeneratable {
 
     public DeleteHistory createAnswerOfDeleteHistory() {
         return new DeleteHistory(ContentType.ANSWER, getId(), writer);
+    }
+
+    public void deleteAnswer(User loginUser) {
+        if(isOwner(loginUser)) {
+            throw new UnAuthorizedException();
+        }
+        setDeleted();
     }
 }
