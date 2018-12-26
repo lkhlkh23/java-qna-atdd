@@ -24,16 +24,10 @@ public class Paging {
         this.next = 0;
     }
 
-    private Paging(int prev, int next, List<Integer> pages) {
-        this.prev = prev;
-        this.next = next;
-        this.pages = pages;
-    }
-
     public Paging of(long countOfContents) {
-        int total = (int)Math.ceil(countOfContents / COUNT_OF_PAGING_CONTENTS);
-        int start = (this.pageNo / (COUNT_OF_PAGING + 1)) * COUNT_OF_PAGING + 1;
-        int end = total < start + COUNT_OF_PAGING - 1 ? total : start + COUNT_OF_PAGING - 1;
+        int start = obtainStartPage();
+        int end = obtainEndPage(countOfContents);
+        int total = obtainTotalPage(countOfContents);
 
         for (int i = start; i <= end; i++) {
             this.pages.add(i);
@@ -48,6 +42,22 @@ public class Paging {
         }
 
         return this;
+    }
+
+    public int obtainStartPage() {
+        return (this.pageNo / (COUNT_OF_PAGING + 1)) * COUNT_OF_PAGING + 1;
+    }
+
+    public int obtainEndPage(long countOfContents) {
+        int total = obtainTotalPage(countOfContents);
+        if(total < obtainStartPage() + COUNT_OF_PAGING - 1) {
+            return total;
+        }
+        return obtainStartPage() + COUNT_OF_PAGING - 1;
+    }
+
+    public int obtainTotalPage(long countOfContents) {
+        return (int)Math.ceil((double)countOfContents / COUNT_OF_PAGING_CONTENTS);
     }
 
     public int getPageNo() {
